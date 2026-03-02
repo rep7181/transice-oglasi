@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  phone         String?
+  password      String
+  name          String
+  role          Role      @default(USER)
+  verified      Boolean   @default(false)
+  avatar        String?
+  bio           String?
+  whatsapp      String?
+  viber         String?
+  telegram      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  ads           Ad[]
+
+  @@map("users")
+}
+
+model Country {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  code      String    @unique
+  flag      String?
+  order     Int       @default(0)
+  regions   Region[]
+  ads       Ad[]
+
+  @@map("countries")
+}
+
+model Region {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String
+  countryId String
+  country   Country   @relation(fields: [countryId], references: [id])
+  cities    City[]
+  ads       Ad[]
+
+  @@unique([slug, countryId])
+  @@map("regions")
+}
+
+model City {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String
+  regionId  String
+  region    Region    @relation(fields: [regionId], references: [id])
+  ads       Ad[]
+
+  @@unique([slug, regionId])
+  @@map("cities")
+}
+
+model Ad {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  description String
+  age         Int?
+  price       Int?
+  currency    String    @default("EUR")
+  phone       String?
+  whatsapp    String?
+  viber       String?
+  telegram    String?
+  status      AdStatus  @default(PENDING)
+  featured    Boolean   @default(false)
+  premium     Boolean   @default(false)
+  views       Int       @default(0)
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  countryId   String
+  country     Country   @relation(fields: [countryId], references: [id])
+
+  regionId    String?
+  region      Region?   @relation(fields: [regionId], references: [id])
+
+  cityId      String?
+  city        City?     @relation(fields: [cityId], references: [id])
+
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+
+  images      Image[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  expiresAt   DateTime?
+
+  @@index([countryId, status])
+  @@index([regionId, status])
+  @@index([cityId, status])
+  @@index([categoryId, status])
+  @@index([status, createdAt])
+  @@map("ads")
+}
+
+model Image {
+  id        String  @id @default(cuid())
+  url       String
+  thumb     String?
+  order     Int     @default(0)
+  adId      String
+  ad        Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  @@map("images")
+}
+
+model Category {
+  id        String  @id @default(cuid())
+  name      String
+  slug      String  @unique
+  order     Int     @default(0)
+  ads       Ad[]
+
+  @@map("categories")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AdStatus {
+  PENDING
+  ACTIVE
+  REJECTED
+  EXPIRED
+  DELETED
+}
