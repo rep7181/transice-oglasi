@@ -24,15 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  const params: { country: string; region: string; city: string }[] = [];
-  COUNTRIES.forEach((c) => {
-    c.regions.forEach((r) => {
-      r.cities.forEach((ci) => {
-        params.push({ country: c.slug, region: r.slug, city: ci.slug });
-      });
-    });
-  });
-  return params;
+  return [];
 }
 
 export default async function CityPage({ params }: Props) {

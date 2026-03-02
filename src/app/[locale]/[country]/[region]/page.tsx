@@ -23,13 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  const params: { country: string; region: string }[] = [];
-  COUNTRIES.forEach((c) => {
-    c.regions.forEach((r) => {
-      params.push({ country: c.slug, region: r.slug });
-    });
-  });
-  return params;
+  return [];
 }
 
 export default async function RegionPage({ params }: Props) {
