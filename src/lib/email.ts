@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const NOTIFY_EMAIL = "annon-marketing@proton.me";
+const NOTIFY_EMAIL = "diosmarketing5@gmail.com";
 
 export async function notifyNewAd(ad: {
   title: string;
