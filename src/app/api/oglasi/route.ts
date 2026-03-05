@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
+import { notifyNewAd } from "@/lib/email";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -112,6 +113,15 @@ export async function POST(req: NextRequest) {
           : undefined,
       },
       include: { images: true },
+    });
+
+    // Send email notification (don't await - fire and forget)
+    notifyNewAd({
+      title,
+      slug,
+      description,
+      userName: user.name,
+      userEmail: user.email,
     });
 
     return NextResponse.json({ ad }, { status: 201 });
