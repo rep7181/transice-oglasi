@@ -7,6 +7,7 @@ import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import Breadcrumb from "@/components/Breadcrumb";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
+import AffiliateLink from "@/components/AffiliateLink";
 
 interface Props {
   params: Promise<{ locale: string; country: string; region: string; city: string }>;
@@ -85,6 +86,11 @@ export default async function CityPage({ params }: Props) {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <SearchFiltersWrapper categories={CATEGORIES} />
         </div>
+      </section>
+
+      {/* Affiliate */}
+      <section className="max-w-6xl mx-auto px-4 pt-6">
+        <AffiliateLink location={city.name} />
       </section>
 
       {/* Ads */}

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import VoteButtons from "@/components/VoteButtons";
+import AffiliateLink from "@/components/AffiliateLink";
 
 interface Props {
   params: Promise<{ locale: string; id: string }>;
@@ -109,6 +110,11 @@ export default async function AdDetailPage({ params }: Props) {
               <div className="border-t border-gray-100 pt-4 mt-4">
                 <VoteButtons adId={ad.id} initialLikes={ad.likes} initialDislikes={ad.dislikes} />
               </div>
+
+              {/* Affiliate */}
+              <div className="border-t border-gray-100 pt-4 mt-4">
+                <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} />
+              </div>
             </div>
           </div>
 
@@ -189,6 +195,8 @@ export default async function AdDetailPage({ params }: Props) {
             <button className="w-full text-center text-xs text-text-muted hover:text-accent transition py-2">
               Prijavi oglas
             </button>
+
+            <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} />
           </div>
         </div>
 
