@@ -1,9 +1,13 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
+import { useState } from "react";
 
 interface AdCardProps {
   id: string;
   slug: string;
   title: string;
+  description?: string | null;
   age?: number | null;
   price?: number | null;
   city?: string | null;
@@ -11,129 +15,191 @@ interface AdCardProps {
   country: string;
   countrySlug: string;
   category: string;
+  categorySlug?: string;
   imageUrl?: string | null;
+  images?: string[];
   featured?: boolean;
   premium?: boolean;
   createdAt: string;
   views: number;
+  phone?: string | null;
+  whatsapp?: string | null;
+  viber?: string | null;
+  telegram?: string | null;
 }
 
 export default function AdCard({
   slug,
   title,
+  description,
   age,
   price,
   city,
+  region,
   country,
-  countrySlug,
   category,
+  categorySlug,
   imageUrl,
+  images,
   featured,
   premium,
   createdAt,
   views,
+  phone,
+  whatsapp,
+  viber,
+  telegram,
 }: AdCardProps) {
+  const [expanded, setExpanded] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const timeAgo = getTimeAgo(new Date(createdAt));
+  const allImages = images?.length ? images : imageUrl ? [imageUrl] : [];
+  const hasContact = phone || whatsapp || viber || telegram;
 
   return (
-    <Link href={`/oglas/${slug}`} className="block group">
-      <div
-        className={`bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 ${
-          featured
-            ? "ring-2 ring-accent"
-            : premium
-              ? "ring-2 ring-primary"
-              : "border border-border"
-        }`}
-      >
-        <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-          {imageUrl ? (
+    <div
+      className={`bg-white rounded-lg shadow-sm break-inside-avoid mb-4 overflow-hidden ${
+        featured ? "border-2 border-accent" : premium ? "border-2 border-warning" : "border border-border"
+      }`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100 bg-gray-50">
+        <div className="flex items-center gap-2">
+          {featured && (
+            <span className="bg-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded">TOP</span>
+          )}
+          {premium && !featured && (
+            <span className="bg-warning text-white text-[10px] font-bold px-1.5 py-0.5 rounded">VIP</span>
+          )}
+          <Link href={`/oglas/${slug}`} className="font-bold text-sm text-primary hover:text-accent transition">
+            {title}
+          </Link>
+          {age && <span className="text-xs text-text-muted">({age} god.)</span>}
+        </div>
+        <span className="text-[11px] text-text-muted">{timeAgo}</span>
+      </div>
+
+      {/* Image gallery */}
+      {allImages.length > 0 && (
+        <Link href={`/oglas/${slug}`} className="block">
+          <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
             <img
-              src={imageUrl}
+              src={allImages[0]}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              <svg
-                className="w-16 h-16"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-          )}
-
-          {(featured || premium) && (
-            <div className="absolute top-2 left-2">
-              {featured && (
-                <span className="bg-accent text-white text-xs font-bold px-2 py-1 rounded">
-                  TOP
-                </span>
-              )}
-              {premium && !featured && (
-                <span className="bg-primary text-white text-xs font-bold px-2 py-1 rounded">
-                  VIP
-                </span>
-              )}
-            </div>
-          )}
-
-          <div className="absolute top-2 right-2">
-            <span className="bg-black/60 text-white text-xs px-2 py-1 rounded">
-              {category}
-            </span>
-          </div>
-        </div>
-
-        <div className="p-3">
-          <h3 className="font-semibold text-sm text-text truncate group-hover:text-primary transition">
-            {title}
-          </h3>
-
-          <div className="flex items-center gap-2 mt-1.5 text-xs text-text-light">
-            <span>{city || country}</span>
-            {age && (
-              <>
-                <span>·</span>
-                <span>{age} god.</span>
-              </>
-            )}
-          </div>
-
-          <div className="flex items-center justify-between mt-2">
-            {price ? (
-              <span className="text-primary font-bold text-sm">
-                {price} &euro;
+            {allImages.length > 1 && (
+              <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                +{allImages.length - 1} foto
               </span>
-            ) : (
-              <span className="text-text-light text-xs">Po dogovoru</span>
             )}
-            <div className="flex items-center gap-2 text-xs text-text-light">
-              <span>{views} pregleda</span>
-              <span>·</span>
-              <span>{timeAgo}</span>
-            </div>
           </div>
-        </div>
+        </Link>
+      )}
+
+      {/* Metadata */}
+      <div className="px-4 py-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-text-muted border-b border-gray-100">
+        <span className="inline-flex items-center gap-1">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+          {category}
+        </span>
+        {region && <span>{region}</span>}
+        {city && <span className="font-medium text-text">{city}</span>}
+        {price && <span className="font-bold text-accent">{price}&euro;</span>}
       </div>
-    </Link>
+
+      {/* Description */}
+      {description && (
+        <div className="px-4 py-2.5">
+          <p className={`text-sm text-text leading-relaxed ${!expanded ? "line-clamp-3" : ""}`}>
+            {description}
+          </p>
+          {description.length > 150 && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-xs text-accent hover:underline mt-1"
+            >
+              {expanded ? "Sakrij" : "Prikaži više..."}
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Tags */}
+      <div className="px-4 pb-2 flex flex-wrap gap-1.5">
+        {categorySlug && (
+          <span className="inline-block bg-accent/10 text-accent text-[11px] font-medium px-2 py-0.5 rounded-full">
+            {category}
+          </span>
+        )}
+        {city && (
+          <span className="inline-block bg-success/10 text-success text-[11px] font-medium px-2 py-0.5 rounded-full">
+            {city}
+          </span>
+        )}
+        {country && (
+          <span className="inline-block bg-info/10 text-info text-[11px] font-medium px-2 py-0.5 rounded-full">
+            {country}
+          </span>
+        )}
+      </div>
+
+      {/* Contact & Actions */}
+      <div className="px-4 py-2.5 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {hasContact && (
+            <button
+              onClick={() => setShowContact(!showContact)}
+              className="text-xs bg-success hover:bg-success-dark text-white px-3 py-1.5 rounded font-medium transition"
+            >
+              {showContact ? "Sakrij kontakt" : "Prikaži kontakt"}
+            </button>
+          )}
+          <Link
+            href={`/oglas/${slug}`}
+            className="text-xs bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded font-medium transition"
+          >
+            Detalji
+          </Link>
+        </div>
+        <span className="text-[11px] text-text-muted">{views} pregleda</span>
+      </div>
+
+      {/* Contact info (revealed) */}
+      {showContact && hasContact && (
+        <div className="px-4 py-3 border-t border-gray-100 space-y-2 bg-green-50">
+          {phone && (
+            <a href={`tel:${phone}`} className="flex items-center gap-2 text-sm text-text hover:text-accent">
+              <span>📞</span> {phone}
+            </a>
+          )}
+          {whatsapp && (
+            <a href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-success hover:underline">
+              <span>💬</span> WhatsApp: {whatsapp}
+            </a>
+          )}
+          {viber && (
+            <a href={`viber://chat?number=${viber.replace(/[^0-9]/g, "")}`} className="flex items-center gap-2 text-sm text-purple-600 hover:underline">
+              <span>📱</span> Viber: {viber}
+            </a>
+          )}
+          {telegram && (
+            <a href={`https://t.me/${telegram.replace("@", "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-info hover:underline">
+              <span>✈️</span> Telegram: {telegram}
+            </a>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
 function getTimeAgo(date: Date): string {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (seconds < 60) return "sada";
-  if (seconds < 3600) return `${Math.floor(seconds / 60)} min`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
-  if (seconds < 604800) return `${Math.floor(seconds / 86400)}d`;
-  return `${Math.floor(seconds / 604800)}s`;
+  if (seconds < 60) return "upravo sada";
+  if (seconds < 3600) return `prije ${Math.floor(seconds / 60)} min`;
+  if (seconds < 86400) return `prije ${Math.floor(seconds / 3600)}h`;
+  if (seconds < 604800) return `prije ${Math.floor(seconds / 86400)} dana`;
+  return `prije ${Math.floor(seconds / 604800)} tj.`;
 }

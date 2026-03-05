@@ -2,9 +2,11 @@ import { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
 import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import Breadcrumb from "@/components/Breadcrumb";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
+import AdCard from "@/components/AdCard";
 
 interface Props {
   params: Promise<{ locale: string; country: string; region: string; city: string }>;
@@ -18,13 +20,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!country || !region || !city) return {};
 
   return {
-    title: `Trans oglasi ${city.name} - Transice oglasi ${city.name}, ${country.name}`,
-    description: `Najnoviji trans oglasi u ${city.name}, ${country.name}. Escort, masaža, upoznavanje. Besplatno postavi oglas u ${city.name}.`,
+    title: `Trans oglasi ${city.name} - Transice-Oglasi.com`,
+    description: `Trans oglasi u ${city.name}, ${country.name}. Escort, masaža, upoznavanje. Besplatno postavi oglas.`,
   };
 }
 
 export function generateStaticParams() {
   return [];
+}
+
+async function getCityAds(citySlug: string) {
+  try {
+    return await prisma.ad.findMany({
+      where: { status: "ACTIVE", city: { slug: citySlug } },
+      include: {
+        images: { orderBy: { order: "asc" } },
+        country: true,
+        region: true,
+        city: true,
+        category: true,
+      },
+      orderBy: [{ featured: "desc" }, { premium: "desc" }, { createdAt: "desc" }],
+      take: 50,
+    });
+  } catch {
+    return [];
+  }
 }
 
 export default async function CityPage({ params }: Props) {
@@ -36,83 +57,109 @@ export default async function CityPage({ params }: Props) {
 
   if (!country || !region || !city) notFound();
 
+  const ads = await getCityAds(cis);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      <Breadcrumb
-        items={[
-          { label: country.name, href: `/${country.slug}` },
-          {
-            label: region.name,
-            href: `/${country.slug}/${region.slug}`,
-          },
-          { label: city.name },
-        ]}
-      />
-
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">
-          Trans oglasi {city.name}
-        </h1>
-        <p className="text-text-light">
-          {country.flag} {country.name} &rsaquo; {region.name} &rsaquo;{" "}
-          {city.name}
-        </p>
-      </div>
-
-      <SearchFiltersWrapper categories={CATEGORIES} />
-
-      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        <div className="col-span-full text-center py-12 text-text-light">
-          <p className="text-lg mb-2">
-            Još nema oglasa u {city.name}
+    <div>
+      {/* Header */}
+      <section className="bg-white border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <Breadcrumb
+            items={[
+              { label: country.name, href: `/${country.slug}` },
+              { label: region.name, href: `/${country.slug}/${region.slug}` },
+              { label: city.name },
+            ]}
+          />
+          <h1 className="text-2xl font-bold text-primary mt-2">
+            Trans oglasi {city.name}
+          </h1>
+          <p className="text-sm text-text-muted mt-1">
+            {country.flag} {country.name} &rsaquo; {region.name} &rsaquo; {city.name}
           </p>
-          <Link
-            href="/oglas/novi"
-            className="text-primary hover:text-primary-dark font-medium"
-          >
-            Budi prvi - postavi oglas u {city.name}!
-          </Link>
         </div>
-      </div>
+      </section>
 
-      {/* SEO content */}
-      <div className="mt-12 bg-white rounded-xl border border-border p-6 space-y-4">
-        <h2 className="font-semibold">
-          Transice oglasi {city.name}
+      {/* Filters */}
+      <section className="bg-white border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          <SearchFiltersWrapper categories={CATEGORIES} />
+        </div>
+      </section>
+
+      {/* Ads */}
+      <section className="max-w-6xl mx-auto px-4 py-6">
+        <h2 className="text-lg font-bold text-primary mb-4">
+          Oglasi u {city.name} ({ads.length})
         </h2>
-        <p className="text-sm text-text-light leading-relaxed">
-          Tražite transice oglase u {city.name}? Na TransOglasi portalu možete
-          besplatno pregledati ili postaviti oglas u {city.name},{" "}
-          {country.name}. Naša platforma nudi razne kategorije uključujući
-          escort, masažu, upoznavanje, webcam i telefon usluge.
-        </p>
-        <p className="text-sm text-text-light leading-relaxed">
-          Svi oglasi u {city.name} prolaze kroz moderaciju kako bismo
-          osigurali kvalitetan sadržaj. Kontaktirajte oglašivače putem
-          WhatsApp, Viber ili Telegram aplikacija.
-        </p>
 
-        <div className="border-t border-border pt-4">
-          <h3 className="font-medium text-sm mb-2">Povezane pretrage</h3>
-          <div className="flex flex-wrap gap-2">
+        {ads.length > 0 ? (
+          <div className="columns-1 md:columns-2 gap-4">
+            {ads.map((ad: any) => (
+              <AdCard
+                key={ad.id}
+                id={ad.id}
+                slug={ad.slug}
+                title={ad.title}
+                description={ad.description}
+                age={ad.age}
+                price={ad.price}
+                city={ad.city?.name}
+                region={ad.region?.name}
+                country={ad.country.name}
+                countrySlug={ad.country.slug}
+                category={ad.category.name}
+                categorySlug={ad.category.slug}
+                imageUrl={ad.images[0]?.url}
+                images={ad.images.map((i: any) => i.url)}
+                featured={ad.featured}
+                premium={ad.premium}
+                createdAt={ad.createdAt.toISOString()}
+                views={ad.views}
+                phone={ad.phone}
+                whatsapp={ad.whatsapp}
+                viber={ad.viber}
+                telegram={ad.telegram}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg border border-border p-10 text-center">
+            <div className="text-3xl mb-2">📝</div>
+            <h3 className="font-bold mb-1">Još nema oglasa u {city.name}</h3>
+            <p className="text-sm text-text-muted mb-3">Budi prvi/a koji će objaviti trans oglas u {city.name}!</p>
+            <Link
+              href="/oglas/novi"
+              className="inline-block bg-success hover:bg-success-dark text-white px-5 py-2 rounded-lg font-bold text-sm transition"
+            >
+              + Objavi oglas
+            </Link>
+          </div>
+        )}
+      </section>
+
+      {/* SEO */}
+      <section className="bg-gray-50 border-t border-border">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <h2 className="font-bold mb-2">Trans oglasi {city.name}</h2>
+          <p className="text-sm text-text-muted leading-relaxed mb-4">
+            Tražite trans oglase u {city.name}? Na Transice-Oglasi.com možete
+            besplatno pregledati ili postaviti oglas u {city.name}, {country.name}.
+            Kategorije: escort, masaža, upoznavanje, webcam i telefon usluge.
+          </p>
+          <div className="flex flex-wrap gap-1.5">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/${country.slug}/${region.slug}/${city.slug}?cat=${cat.slug}`}
-                className="text-xs text-primary bg-primary/5 px-2 py-1 rounded hover:bg-primary/10 transition"
+                className="text-[11px] text-accent bg-accent/5 px-2 py-1 rounded hover:bg-accent/10 transition"
               >
                 {cat.name} {city.name}
               </Link>
             ))}
-            <Link
-              href={`/${country.slug}`}
-              className="text-xs text-primary bg-primary/5 px-2 py-1 rounded hover:bg-primary/10 transition"
-            >
-              Trans oglasi {country.name}
-            </Link>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

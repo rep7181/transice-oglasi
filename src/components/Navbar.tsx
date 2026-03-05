@@ -13,120 +13,113 @@ export default function Navbar({ user }: NavbarProps) {
   const t = useTranslations("common");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const navLinks = [
+    { href: "/" as const, label: "Trans Oglasi" },
+    { href: "/oglas/novi" as const, label: t("postAd") },
+    { href: "/hrvatska" as const, label: "Hrvatska" },
+    { href: "/srbija" as const, label: "Srbija" },
+    { href: "/bosna-i-hercegovina" as const, label: "BiH" },
+    { href: "/crna-gora" as const, label: "Crna Gora" },
+    { href: "/slovenija" as const, label: "Slovenija" },
+    { href: "/sjeverna-makedonija" as const, label: "Makedonija" },
+  ];
+
   return (
-    <header className="bg-dark text-white sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-primary">Trans</span>
-          <span className="text-2xl font-bold">Oglasi</span>
-        </Link>
-
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-sm text-gray-300 hover:text-white transition">
-            {t("home")}
+    <header className="sticky top-0 z-50">
+      {/* Logo bar */}
+      <div className="bg-white border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-1">
+            <span className="text-2xl font-black text-primary">Transice</span>
+            <span className="text-2xl font-black text-accent">-Oglasi</span>
+            <span className="text-xl font-black text-primary">.com</span>
           </Link>
-          <Link href="/hrvatska" className="text-sm text-gray-300 hover:text-white transition">
-            Hrvatska
-          </Link>
-          <Link href="/srbija" className="text-sm text-gray-300 hover:text-white transition">
-            Srbija
-          </Link>
-          <Link href="/bosna-i-hercegovina" className="text-sm text-gray-300 hover:text-white transition">
-            BiH
-          </Link>
-          <Link href="/crna-gora" className="text-sm text-gray-300 hover:text-white transition">
-            Crna Gora
-          </Link>
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
-          <LanguageSwitcher />
-
-          {user ? (
-            <>
-              <Link href="/profil" className="text-sm text-gray-300 hover:text-white transition">
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            {user ? (
+              <Link href="/profil" className="text-sm text-primary hover:text-accent transition">
                 {user.name}
               </Link>
-              {user.role === "ADMIN" && (
-                <Link href="/admin" className="text-sm text-accent hover:text-yellow-300 transition">
-                  {t("admin")}
-                </Link>
-              )}
-              <Link
-                href="/oglas/novi"
-                className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-              >
-                {t("postAd")}
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="text-sm text-gray-300 hover:text-white transition">
+            ) : (
+              <Link href="/login" className="text-sm text-primary hover:text-accent transition">
                 {t("login")}
               </Link>
-              <Link
-                href="/registracija"
-                className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-              >
-                {t("register")}
+            )}
+            {user?.role === "ADMIN" && (
+              <Link href="/admin" className="text-sm text-accent font-bold">
+                Admin
               </Link>
-            </>
-          )}
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation bar */}
+      <nav className="bg-primary text-white">
+        <div className="max-w-6xl mx-auto px-4">
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-0">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-3 text-sm font-medium text-gray-200 hover:bg-primary-light hover:text-white transition"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile hamburger */}
+          <div className="md:hidden flex items-center justify-between py-2">
+            <span className="text-sm font-medium">Menu</span>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-white p-2"
+              aria-label="Menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-white p-2"
-          aria-label="Menu"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-      </nav>
-
-      {menuOpen && (
-        <div className="md:hidden bg-dark-light border-t border-gray-700 px-4 py-4 space-y-3">
-          <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setMenuOpen(false)}>
-            {t("home")}
-          </Link>
-          <Link href="/hrvatska" className="block text-gray-300 hover:text-white" onClick={() => setMenuOpen(false)}>
-            Hrvatska
-          </Link>
-          <Link href="/srbija" className="block text-gray-300 hover:text-white" onClick={() => setMenuOpen(false)}>
-            Srbija
-          </Link>
-          <Link href="/bosna-i-hercegovina" className="block text-gray-300 hover:text-white" onClick={() => setMenuOpen(false)}>
-            BiH
-          </Link>
-          <hr className="border-gray-700" />
-          <LanguageSwitcher />
-          <hr className="border-gray-700" />
-          {user ? (
-            <>
-              <Link href="/profil" className="block text-gray-300 hover:text-white">
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="md:hidden bg-primary-dark border-t border-primary-light px-4 py-3 space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block py-2 px-3 text-gray-200 hover:bg-primary-light hover:text-white rounded transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <hr className="border-primary-light" />
+            {user ? (
+              <Link href="/profil" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
                 {t("profile")}
               </Link>
-              <Link href="/oglas/novi" className="block bg-primary text-white px-4 py-2 rounded-lg text-center font-medium">
-                {t("postAd")}
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="block text-gray-300 hover:text-white">
-                {t("login")}
-              </Link>
-              <Link href="/registracija" className="block bg-primary text-white px-4 py-2 rounded-lg text-center font-medium">
-                {t("register")}
-              </Link>
-            </>
-          )}
-        </div>
-      )}
+            ) : (
+              <>
+                <Link href="/login" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
+                  {t("login")}
+                </Link>
+                <Link href="/registracija" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
+                  {t("register")}
+                </Link>
+              </>
+            )}
+          </div>
+        )}
+      </nav>
     </header>
   );
 }

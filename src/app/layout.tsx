@@ -3,22 +3,26 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "TransOglasi - Trans oglasi za Balkan",
-    template: "%s | TransOglasi",
+    default: "Transice-Oglasi.com - Besplatni trans oglasi za Balkan",
+    template: "%s | Transice-Oglasi.com",
   },
   description:
-    "Najveći portal za trans oglase na Balkanu. Besplatno postavljanje oglasa iz Hrvatske, Srbije, BiH, Crne Gore i cijele regije.",
+    "Besplatni trans oglasi i osobni kontakti. Hrvatska, Srbija, BiH, Crna Gora, Slovenija, Makedonija. Escort, masaža, upoznavanje. 100% besplatno.",
   keywords: [
-    "transice oglasi",
     "trans oglasi",
-    "transica zagreb",
-    "shemale croatia",
+    "transice oglasi",
+    "trans escort",
+    "trans oglasi zagreb",
     "trans oglasi beograd",
     "trans oglasi sarajevo",
+    "trans oglasi hrvatska",
+    "trans oglasi srbija",
+    "trans kontakti",
+    "besplatni trans oglasi",
   ],
   openGraph: {
     type: "website",
-    siteName: "TransOglasi",
+    siteName: "Transice-Oglasi.com",
   },
 };
 

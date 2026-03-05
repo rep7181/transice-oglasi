@@ -116,7 +116,7 @@ export default function NewAdPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Postavi novi oglas</h1>
+      <h1 className="text-2xl font-bold text-primary mb-6">Postavi novi trans oglas</h1>
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-6 text-sm">
@@ -372,7 +372,7 @@ export default function NewAdPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 text-lg"
+            className="flex-1 bg-success hover:bg-success-dark text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 text-lg"
           >
             {loading ? "Objavljivanje..." : "Objavi oglas"}
           </button>

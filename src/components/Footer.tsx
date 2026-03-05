@@ -2,64 +2,92 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 
 export default function Footer() {
   const t = useTranslations("common");
-  const tc = useTranslations("categories");
+
+  // Major cities for quick links
+  const footerCities = [
+    { name: "Zagreb", path: "/hrvatska/grad-zagreb/zagreb" },
+    { name: "Split", path: "/hrvatska/splitsko-dalmatinska/split" },
+    { name: "Rijeka", path: "/hrvatska/primorsko-goranska/rijeka" },
+    { name: "Osijek", path: "/hrvatska/osjecko-baranjska/osijek" },
+    { name: "Beograd", path: "/srbija/beograd/beograd" },
+    { name: "Novi Sad", path: "/srbija/vojvodina/novi-sad" },
+    { name: "Sarajevo", path: "/bosna-i-hercegovina/kanton-sarajevo/sarajevo" },
+    { name: "Ljubljana", path: "/slovenija/osrednjeslovenska/ljubljana" },
+    { name: "Podgorica", path: "/crna-gora/podgorica/podgorica" },
+    { name: "Skopje", path: "/sjeverna-makedonija/skopski/skopje" },
+  ];
 
   return (
-    <footer className="bg-dark text-gray-400 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="bg-primary text-gray-300 mt-auto">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Top section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
           <div>
-            <h3 className="text-white font-bold mb-4">{t("siteName")}</h3>
-            <p className="text-sm leading-relaxed">
-              {t("siteName")} - Trans oglasi Balkan.
+            <h3 className="text-white font-bold mb-3 text-base">Transice-Oglasi.com</h3>
+            <p className="text-xs leading-relaxed text-gray-400">
+              Besplatni trans oglasi i osobni kontakti za Balkan.
+              100% besplatno objavljivanje.
             </p>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              {t("countries")}
-            </h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/hrvatska" className="hover:text-white transition">Hrvatska</Link></li>
-              <li><Link href="/srbija" className="hover:text-white transition">Srbija</Link></li>
-              <li><Link href="/bosna-i-hercegovina" className="hover:text-white transition">Bosna i Hercegovina</Link></li>
-              <li><Link href="/crna-gora" className="hover:text-white transition">Crna Gora</Link></li>
-              <li><Link href="/slovenija" className="hover:text-white transition">Slovenija</Link></li>
+            <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Države</h4>
+            <ul className="space-y-1.5">
+              {COUNTRIES.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/${c.slug}` as never} className="text-xs hover:text-white transition">
+                    {c.flag} {c.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              {t("categories")}
-            </h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/?cat=escort" className="hover:text-white transition">{tc("escort")}</Link></li>
-              <li><Link href="/?cat=masaza" className="hover:text-white transition">{tc("masaza")}</Link></li>
-              <li><Link href="/?cat=upoznavanje" className="hover:text-white transition">{tc("upoznavanje")}</Link></li>
-              <li><Link href="/?cat=webcam" className="hover:text-white transition">{tc("webcam")}</Link></li>
+            <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Gradovi</h4>
+            <ul className="space-y-1.5">
+              {footerCities.map((city) => (
+                <li key={city.name}>
+                  <Link href={city.path as never} className="text-xs hover:text-white transition">
+                    {city.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              {t("info")}
-            </h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/kontakt" className="hover:text-white transition">{t("contactUs")}</Link></li>
-              <li><Link href="/pravila" className="hover:text-white transition">{t("terms")}</Link></li>
-              <li><Link href="/privatnost" className="hover:text-white transition">{t("privacy")}</Link></li>
+            <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Info</h4>
+            <ul className="space-y-1.5">
+              <li><Link href="/oglas/novi" className="text-xs hover:text-white transition">Objavi oglas</Link></li>
+              <li><Link href="/login" className="text-xs hover:text-white transition">{t("login")}</Link></li>
+              <li><Link href="/registracija" className="text-xs hover:text-white transition">{t("register")}</Link></li>
+            </ul>
+            <h4 className="text-white font-bold mb-2 mt-4 text-xs uppercase tracking-wider">Kategorije</h4>
+            <ul className="space-y-1.5">
+              {CATEGORIES.slice(0, 5).map((cat) => (
+                <li key={cat.slug}>
+                  <Link href={`/?cat=${cat.slug}` as never} className="text-xs hover:text-white transition">
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm">
-            &copy; {new Date().getFullYear()} {t("siteName")}. {t("allRights")}
+        {/* Bottom */}
+        <div className="border-t border-primary-light mt-6 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
+          <p className="text-xs text-gray-400">
+            &copy; {new Date().getFullYear()} Transice-Oglasi.com. Sva prava pridržana.
           </p>
-          <p className="text-xs text-gray-500">{t("ageNotice")}</p>
+          <p className="text-[10px] text-gray-500">
+            Sav sadržaj na ovoj stranici namijenjen je isključivo osobama starijim od 18 godina.
+          </p>
         </div>
       </div>
     </footer>
