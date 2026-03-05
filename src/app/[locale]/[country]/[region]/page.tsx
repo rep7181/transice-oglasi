@@ -146,7 +146,7 @@ export default async function RegionPage({ params }: Props) {
             <p className="text-sm text-text-muted mb-3">Budi prvi/a!</p>
             <Link
               href="/oglas/novi"
-              className="inline-block bg-success hover:bg-success-dark text-white px-5 py-2 rounded-lg font-bold text-sm transition"
+              className="inline-block bg-black hover:bg-gray-800 text-white px-5 py-2 rounded-lg font-bold text-sm transition"
             >
               + Objavi oglas
             </Link>

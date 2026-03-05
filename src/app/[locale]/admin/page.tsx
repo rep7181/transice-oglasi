@@ -28,7 +28,7 @@ export default async function AdminPage() {
         </div>
         <div className="bg-white rounded-xl border border-border p-5">
           <p className="text-text-light text-sm">Aktivni oglasi</p>
-          <p className="text-3xl font-bold mt-1 text-green-600">0</p>
+          <p className="text-3xl font-bold mt-1 text-primary">0</p>
         </div>
         <div className="bg-white rounded-xl border border-border p-5">
           <p className="text-text-light text-sm">Registrirani korisnici</p>
@@ -68,7 +68,7 @@ export default async function AdminPage() {
                 <td className="py-3">28.02.2026</td>
                 <td className="py-3">
                   <div className="flex gap-2">
-                    <button className="bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition">
+                    <button className="bg-gray-200 text-gray-700 hover:bg-gray-300 px-3 py-1 rounded text-xs font-medium transition">
                       Odobri
                     </button>
                     <button className="bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded text-xs font-medium transition">

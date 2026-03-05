@@ -161,7 +161,7 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
       </section>
 
       {/* Post Ad CTA */}
-      <section className="bg-success/5 border-b border-success/20">
+      <section className="bg-gray-100 border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
             <h2 className="font-bold text-text">Objavi besplatni trans oglas</h2>
@@ -169,7 +169,7 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
           </div>
           <Link
             href="/oglas/novi"
-            className="bg-success hover:bg-success-dark text-white px-6 py-2.5 rounded-lg font-bold text-sm transition whitespace-nowrap"
+            className="bg-black hover:bg-gray-800 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition whitespace-nowrap"
           >
             + Objavi oglas
           </Link>
@@ -221,7 +221,7 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
             <p className="text-text-muted text-sm mb-4">Budi prvi/a koji će objaviti trans oglas!</p>
             <Link
               href="/oglas/novi"
-              className="inline-block bg-success hover:bg-success-dark text-white px-6 py-2.5 rounded-lg font-bold text-sm transition"
+              className="inline-block bg-black hover:bg-gray-800 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition"
             >
               + Objavi prvi oglas
             </Link>

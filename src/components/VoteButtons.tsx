@@ -64,10 +64,10 @@ export default function VoteButtons({ adId, initialLikes, initialDislikes }: Vot
         disabled={voted !== null || loading}
         className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition ${
           voted === "like"
-            ? "bg-green-100 border-green-400 text-green-700"
+            ? "bg-gray-200 border-gray-400 text-gray-700"
             : voted
               ? "bg-gray-50 border-border text-text-light cursor-not-allowed"
-              : "bg-white border-border text-text hover:bg-green-50 hover:border-green-300"
+              : "bg-white border-border text-text hover:bg-gray-50 hover:border-gray-400"
         }`}
       >
         <span>👍</span> Sviđa mi se <span className="font-bold">{likes}</span>

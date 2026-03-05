@@ -142,7 +142,7 @@ export default async function AdDetailPage({ params }: Props) {
                   href={`https://wa.me/${ad.whatsapp.replace(/[^0-9+]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
+                  className="flex items-center gap-2 w-full bg-gray-700 hover:bg-gray-800 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
                 >
                   💬 WhatsApp
                 </a>
@@ -151,7 +151,7 @@ export default async function AdDetailPage({ params }: Props) {
               {ad.viber && (
                 <a
                   href={`viber://chat?number=${ad.viber.replace(/[^0-9+]/g, "")}`}
-                  className="flex items-center gap-2 w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
+                  className="flex items-center gap-2 w-full bg-gray-600 hover:bg-gray-700 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
                 >
                   📱 Viber
                 </a>
@@ -162,7 +162,7 @@ export default async function AdDetailPage({ params }: Props) {
                   href={`https://t.me/${ad.telegram.replace("@", "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
+                  className="flex items-center gap-2 w-full bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
                 >
                   ✈️ Telegram
                 </a>

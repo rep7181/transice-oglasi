@@ -59,19 +59,19 @@ export default function AdCard({
   return (
     <div
       className={`bg-white rounded-lg shadow-sm break-inside-avoid mb-4 overflow-hidden ${
-        featured ? "border-2 border-accent" : premium ? "border-2 border-warning" : "border border-border"
+        featured ? "border-2 border-black" : premium ? "border-2 border-gray-400" : "border border-border"
       }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100 bg-gray-50">
         <div className="flex items-center gap-2">
           {featured && (
-            <span className="bg-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded">TOP</span>
+            <span className="bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded">TOP</span>
           )}
           {premium && !featured && (
-            <span className="bg-warning text-white text-[10px] font-bold px-1.5 py-0.5 rounded">VIP</span>
+            <span className="bg-gray-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">VIP</span>
           )}
-          <Link href={`/oglas/${slug}`} className="font-bold text-sm text-primary hover:text-accent transition">
+          <Link href={`/oglas/${slug}`} className="font-bold text-sm text-primary hover:text-gray-600 transition">
             {title}
           </Link>
           {age && <span className="text-xs text-text-muted">({age} god.)</span>}
@@ -106,7 +106,7 @@ export default function AdCard({
         </span>
         {region && <span>{region}</span>}
         {city && <span className="font-medium text-text">{city}</span>}
-        {price && <span className="font-bold text-accent">{price}&euro;</span>}
+        {price && <span className="font-bold text-primary">{price}&euro;</span>}
       </div>
 
       {/* Description */}
@@ -118,7 +118,7 @@ export default function AdCard({
           {description.length > 150 && (
             <button
               onClick={() => setExpanded(!expanded)}
-              className="text-xs text-accent hover:underline mt-1"
+              className="text-xs text-gray-500 hover:text-black hover:underline mt-1"
             >
               {expanded ? "Sakrij" : "Prikaži više..."}
             </button>
@@ -129,17 +129,17 @@ export default function AdCard({
       {/* Tags */}
       <div className="px-4 pb-2 flex flex-wrap gap-1.5">
         {categorySlug && (
-          <span className="inline-block bg-accent/10 text-accent text-[11px] font-medium px-2 py-0.5 rounded-full">
+          <span className="inline-block bg-gray-100 text-gray-600 text-[11px] font-medium px-2 py-0.5 rounded-full">
             {category}
           </span>
         )}
         {city && (
-          <span className="inline-block bg-success/10 text-success text-[11px] font-medium px-2 py-0.5 rounded-full">
+          <span className="inline-block bg-gray-100 text-gray-600 text-[11px] font-medium px-2 py-0.5 rounded-full">
             {city}
           </span>
         )}
         {country && (
-          <span className="inline-block bg-info/10 text-info text-[11px] font-medium px-2 py-0.5 rounded-full">
+          <span className="inline-block bg-gray-100 text-gray-600 text-[11px] font-medium px-2 py-0.5 rounded-full">
             {country}
           </span>
         )}
@@ -151,14 +151,14 @@ export default function AdCard({
           {hasContact && (
             <button
               onClick={() => setShowContact(!showContact)}
-              className="text-xs bg-success hover:bg-success-dark text-white px-3 py-1.5 rounded font-medium transition"
+              className="text-xs bg-gray-700 hover:bg-black text-white px-3 py-1.5 rounded font-medium transition"
             >
               {showContact ? "Sakrij kontakt" : "Prikaži kontakt"}
             </button>
           )}
           <Link
             href={`/oglas/${slug}`}
-            className="text-xs bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded font-medium transition"
+            className="text-xs bg-black hover:bg-gray-800 text-white px-3 py-1.5 rounded font-medium transition"
           >
             Detalji
           </Link>
@@ -168,24 +168,24 @@ export default function AdCard({
 
       {/* Contact info (revealed) */}
       {showContact && hasContact && (
-        <div className="px-4 py-3 border-t border-gray-100 space-y-2 bg-green-50">
+        <div className="px-4 py-3 border-t border-gray-200 space-y-2 bg-gray-50">
           {phone && (
-            <a href={`tel:${phone}`} className="flex items-center gap-2 text-sm text-text hover:text-accent">
+            <a href={`tel:${phone}`} className="flex items-center gap-2 text-sm text-text hover:underline">
               <span>📞</span> {phone}
             </a>
           )}
           {whatsapp && (
-            <a href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-success hover:underline">
+            <a href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
               <span>💬</span> WhatsApp: {whatsapp}
             </a>
           )}
           {viber && (
-            <a href={`viber://chat?number=${viber.replace(/[^0-9]/g, "")}`} className="flex items-center gap-2 text-sm text-purple-600 hover:underline">
+            <a href={`viber://chat?number=${viber.replace(/[^0-9]/g, "")}`} className="flex items-center gap-2 text-sm text-text hover:underline">
               <span>📱</span> Viber: {viber}
             </a>
           )}
           {telegram && (
-            <a href={`https://t.me/${telegram.replace("@", "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-info hover:underline">
+            <a href={`https://t.me/${telegram.replace("@", "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
               <span>✈️</span> Telegram: {telegram}
             </a>
           )}

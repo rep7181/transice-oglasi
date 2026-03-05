@@ -7,7 +7,7 @@ interface AffiliateLinkProps {
 }
 
 export default function AffiliateLink({ location, variant = "chip" }: AffiliateLinkProps) {
-  const text = location ? `GAY Dating ${location}` : "GAY Dating Hrvatska";
+  const text = location ? `Trans Dating ${location}` : "Trans Dating";
 
   if (variant === "chip") {
     return (
@@ -15,7 +15,7 @@ export default function AffiliateLink({ location, variant = "chip" }: AffiliateL
         href={AFF_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block bg-pink-50 border border-pink-200 hover:border-pink-400 text-pink-600 hover:text-pink-700 text-[11px] font-medium px-2 py-0.5 rounded transition"
+        className="inline-block bg-gray-100 border border-gray-300 hover:border-gray-400 text-gray-600 hover:text-gray-800 text-[11px] font-medium px-2 py-0.5 rounded transition"
       >
         {text}
       </a>
@@ -28,7 +28,7 @@ export default function AffiliateLink({ location, variant = "chip" }: AffiliateL
         href={AFF_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block bg-pink-50 border border-pink-200 hover:border-pink-400 text-pink-600 hover:text-pink-700 text-sm font-medium px-3 py-1.5 rounded-full transition"
+        className="inline-block bg-gray-100 border border-gray-300 hover:border-gray-400 text-gray-600 hover:text-gray-800 text-sm font-medium px-3 py-1.5 rounded-full transition"
       >
         {text}
       </a>
@@ -37,14 +37,14 @@ export default function AffiliateLink({ location, variant = "chip" }: AffiliateL
 
   // banner
   return (
-    <div className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-200 rounded-lg p-4 text-center">
+    <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 text-center">
       <a
         href={AFF_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-sm font-bold text-pink-600 hover:text-pink-700 transition underline underline-offset-2"
+        className="text-sm font-bold text-gray-700 hover:text-black transition underline underline-offset-2"
       >
-        🔥 {text} — Pronađi partnera!
+        {text} — Pronađi partnera!
       </a>
     </div>
   );

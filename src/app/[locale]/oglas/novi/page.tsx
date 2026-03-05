@@ -372,7 +372,7 @@ export default function NewAdPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-success hover:bg-success-dark text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 text-lg"
+            className="flex-1 bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 text-lg"
           >
             {loading ? "Objavljivanje..." : "Objavi oglas"}
           </button>
