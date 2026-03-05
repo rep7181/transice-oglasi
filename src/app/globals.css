@@ -47,10 +47,10 @@ select:focus {
 }
 
 a {
-  color: var(--color-text);
+  color: inherit;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
