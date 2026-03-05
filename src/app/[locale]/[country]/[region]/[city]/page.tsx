@@ -78,6 +78,9 @@ export default async function CityPage({ params }: Props) {
           <p className="text-sm text-text-muted mt-1">
             {country.flag} {country.name} &rsaquo; {region.name} &rsaquo; {city.name}
           </p>
+          <div className="mt-2">
+            <AffiliateLink location={city.name} variant="chip" />
+          </div>
         </div>
       </section>
 
@@ -86,11 +89,6 @@ export default async function CityPage({ params }: Props) {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <SearchFiltersWrapper categories={CATEGORIES} />
         </div>
-      </section>
-
-      {/* Affiliate */}
-      <section className="max-w-6xl mx-auto px-4 pt-6">
-        <AffiliateLink location={city.name} />
       </section>
 
       {/* Ads */}

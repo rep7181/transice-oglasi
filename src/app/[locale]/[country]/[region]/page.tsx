@@ -91,6 +91,7 @@ export default async function RegionPage({ params }: Props) {
                 {city.name}
               </Link>
             ))}
+            <AffiliateLink location={region.name} variant="button" />
           </div>
         </div>
       </section>
@@ -100,11 +101,6 @@ export default async function RegionPage({ params }: Props) {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <SearchFiltersWrapper categories={CATEGORIES} />
         </div>
-      </section>
-
-      {/* Affiliate */}
-      <section className="max-w-6xl mx-auto px-4 pt-6">
-        <AffiliateLink location={region.name} />
       </section>
 
       {/* Ads */}

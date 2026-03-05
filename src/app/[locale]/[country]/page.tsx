@@ -68,6 +68,9 @@ export default async function CountryPage({ params }: Props) {
           <p className="text-sm text-text-muted mt-1">
             Besplatni trans oglasi i kontakti u {country.name}
           </p>
+          <div className="mt-2">
+            <AffiliateLink location={country.name} variant="chip" />
+          </div>
         </div>
       </section>
 
@@ -106,11 +109,6 @@ export default async function CountryPage({ params }: Props) {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <SearchFiltersWrapper categories={CATEGORIES} />
         </div>
-      </section>
-
-      {/* Affiliate */}
-      <section className="max-w-6xl mx-auto px-4 pt-6">
-        <AffiliateLink location={country.name} />
       </section>
 
       {/* Ads */}

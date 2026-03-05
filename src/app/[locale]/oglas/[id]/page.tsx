@@ -96,6 +96,7 @@ export default async function AdDetailPage({ params }: Props) {
                 <span className="bg-gray-100 text-text-muted px-2 py-0.5 rounded-full">
                   {ad.views} pregleda
                 </span>
+                <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} variant="chip" />
               </div>
 
               {ad.description && (
@@ -111,10 +112,6 @@ export default async function AdDetailPage({ params }: Props) {
                 <VoteButtons adId={ad.id} initialLikes={ad.likes} initialDislikes={ad.dislikes} />
               </div>
 
-              {/* Affiliate */}
-              <div className="border-t border-gray-100 pt-4 mt-4">
-                <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} />
-              </div>
             </div>
           </div>
 
@@ -196,7 +193,6 @@ export default async function AdDetailPage({ params }: Props) {
               Prijavi oglas
             </button>
 
-            <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} />
           </div>
         </div>
 
