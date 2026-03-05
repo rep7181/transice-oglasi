@@ -81,6 +81,8 @@ model Ad {
   featured    Boolean   @default(false)
   premium     Boolean   @default(false)
   views       Int       @default(0)
+  likes       Int       @default(0)
+  dislikes    Int       @default(0)
 
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)

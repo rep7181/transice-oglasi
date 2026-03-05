@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
+import VoteButtons from "@/components/VoteButtons";
 
 // This would come from the database in production
 const DEMO_AD = {
@@ -22,6 +23,8 @@ Molim vas, samo ozbiljne poruke.`,
   viber: "+385 91 234 5678",
   telegram: "@lena_zg",
   views: 234,
+  likes: 0,
+  dislikes: 0,
   createdAt: "2026-02-27T10:00:00Z",
   country: { name: "Hrvatska", slug: "hrvatska", flag: "\ud83c\udded\ud83c\uddf7" },
   region: { name: "Grad Zagreb", slug: "grad-zagreb" },
@@ -83,6 +86,11 @@ export default function AdDetailPage() {
               <p className="whitespace-pre-line text-sm leading-relaxed">
                 {ad.description}
               </p>
+            </div>
+
+            {/* Like / Dislike */}
+            <div className="border-t border-border pt-4">
+              <VoteButtons adId={ad.id} initialLikes={ad.likes} initialDislikes={ad.dislikes} />
             </div>
           </div>
         </div>
