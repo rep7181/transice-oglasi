@@ -28,10 +28,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return [];
-}
-
 async function getCityAds(citySlug: string) {
   try {
     return await prisma.ad.findMany({
