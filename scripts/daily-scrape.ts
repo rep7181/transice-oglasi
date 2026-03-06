@@ -4,6 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import * as fs from "fs";
 import * as path from "path";
 import * as https from "https";
+import * as http from "http";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -13,7 +14,7 @@ const SOURCES = [
   "https://ljubavni-oglasnik.net/oglasi/druzenje/pretraga.php?id=98",
 ];
 
-const IMPORTED_FILE = path.join(__dirname, ".imported-urls.json");
+const IMPORTED_FILE = process.env.IMPORTED_FILE || path.join(__dirname, ".imported-urls.json");
 
 const CITY_MAP: Record<string, { country: string; region: string; city: string }> = {
   "zagreb": { country: "hrvatska", region: "grad-zagreb", city: "zagreb" },
@@ -46,7 +47,8 @@ function slugify(text: string): string {
 
 function fetchUtf8(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible)" } }, (res) => {
+    const client = url.startsWith("https") ? https : http;
+    client.get(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible)" } }, (res) => {
       if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return fetchUtf8(res.headers.location).then(resolve).catch(reject);
       }
@@ -58,20 +60,6 @@ function fetchUtf8(url: string): Promise<string> {
   });
 }
 
-function downloadFile(url: string, dest: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    https.get(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible)" } }, (res) => {
-      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return downloadFile(res.headers.location, dest).then(resolve).catch(reject);
-      }
-      if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}`)); return; }
-      const ws = fs.createWriteStream(dest);
-      res.pipe(ws);
-      ws.on("finish", () => { ws.close(); resolve(); });
-      ws.on("error", reject);
-    }).on("error", reject);
-  });
-}
 
 function loadImported(): Set<string> {
   try {
@@ -171,8 +159,6 @@ async function main() {
   const countries = await prisma.country.findMany({ include: { regions: { include: { cities: true } } } });
   const categories = await prisma.category.findMany();
   const defaultCat = categories.find(c => c.slug === "escort") || categories[0];
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
   function findLocation(cityName: string) {
     const key = cityName.toLowerCase().trim();
@@ -203,14 +189,8 @@ async function main() {
       const loc = findLocation(ad.city) || findLocation("zagreb")!;
       const slug = slugify(ad.title) + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
 
-      const savedImages: string[] = [];
-      for (let i = 0; i < Math.min(ad.imageUrls.length, 5); i++) {
-        try {
-          const fname = `${slug}-${i}.jpg`;
-          await downloadFile(ad.imageUrls[i], path.join(uploadsDir, fname));
-          savedImages.push(`/uploads/${fname}`);
-        } catch { /* skip */ }
-      }
+      // Use original image URLs directly (no download needed)
+      const imageUrls = ad.imageUrls.slice(0, 5);
 
       await prisma.ad.create({
         data: {
@@ -226,13 +206,13 @@ async function main() {
           regionId: loc.regionId || null,
           cityId: loc.cityId || null,
           categoryId: defaultCat.id,
-          images: savedImages.length > 0 ? {
-            create: savedImages.map((u, i) => ({ url: u, order: i }))
+          images: imageUrls.length > 0 ? {
+            create: imageUrls.map((u, i) => ({ url: u, order: i }))
           } : undefined,
         },
       });
 
-      console.log(`  NEW: "${ad.title.slice(0, 50)}" | ${ad.city} | ${savedImages.length} imgs`);
+      console.log(`  NEW: "${ad.title.slice(0, 50)}" | ${ad.city} | ${imageUrls.length} imgs`);
       imported.add(url);
       created++;
       await new Promise(r => setTimeout(r, 300));
