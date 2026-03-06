@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     "trans kontakti",
     "besplatni trans oglasi",
   ],
+  verification: {
+    google: "4NwsifZZq4i8r-BVS7gm2ZCT92uUpxPWtkI5EgiKSQ8",
+  },
   openGraph: {
     type: "website",
     siteName: "Transice-Oglasi.com",
