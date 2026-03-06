@@ -6,6 +6,8 @@ import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import AdCard from "@/components/AdCard";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 
+export const revalidate = 300; // revalidate every 5 minutes
+
 async function getAds() {
   try {
     const ads = await prisma.ad.findMany({

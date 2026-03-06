@@ -9,6 +9,8 @@ import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
 import AffiliateLink from "@/components/AffiliateLink";
 
+export const revalidate = 300;
+
 interface Props {
   params: Promise<{ locale: string; country: string }>;
 }
