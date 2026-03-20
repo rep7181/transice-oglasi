@@ -74,33 +74,37 @@ export default async function CountryPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Regions & Cities */}
+      {/* Regions & Cities (collapsible) */}
       <section className="bg-gray-50 border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <h2 className="text-sm font-bold text-primary mb-3">Regije i gradovi</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {country.regions.map((region) => (
-              <div key={region.slug} className="bg-white rounded-lg border border-border p-3">
-                <Link
-                  href={`/${country.slug}/${region.slug}`}
-                  className="font-bold text-sm text-primary hover:text-accent transition block mb-1.5"
-                >
-                  {region.name}
-                </Link>
-                <div className="flex flex-wrap gap-1">
-                  {region.cities.map((city) => (
-                    <Link
-                      key={city.slug}
-                      href={`/${country.slug}/${region.slug}/${city.slug}`}
-                      className="text-[11px] text-text-muted hover:text-accent bg-gray-50 px-1.5 py-0.5 rounded transition"
-                    >
-                      {city.name}
-                    </Link>
-                  ))}
+          <details>
+            <summary className="text-sm font-bold text-primary cursor-pointer select-none hover:text-accent transition">
+              Regije i gradovi ({country.regions.length})
+            </summary>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+              {country.regions.map((region) => (
+                <div key={region.slug} className="bg-white rounded-lg border border-border p-3">
+                  <Link
+                    href={`/${country.slug}/${region.slug}`}
+                    className="font-bold text-sm text-primary hover:text-accent transition block mb-1.5"
+                  >
+                    {region.name}
+                  </Link>
+                  <div className="flex flex-wrap gap-1">
+                    {region.cities.map((city) => (
+                      <Link
+                        key={city.slug}
+                        href={`/${country.slug}/${region.slug}/${city.slug}`}
+                        className="text-[11px] text-text-muted hover:text-accent bg-gray-50 px-1.5 py-0.5 rounded transition"
+                      >
+                        {city.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </details>
         </div>
       </section>
 
