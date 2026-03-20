@@ -95,8 +95,11 @@ function extractAge(text: string): number | undefined {
 }
 
 function extractPhone(text: string): string | undefined {
-  const m = text.match(/(\+?387\d{8,9})/);
-  return m ? m[1] : undefined;
+  const m = text.match(/(\+?387[\d\s\/-]{7,})/);
+  if (m) return m[1].replace(/[\s\/-]/g, "");
+  const m2 = text.match(/(0\d[\d\s\/-]{7,}\d)/);
+  if (m2) { const p = m2[1].replace(/[\s\/-]/g, ""); if (p.length >= 9) return p; }
+  return undefined;
 }
 
 interface ParsedAd {

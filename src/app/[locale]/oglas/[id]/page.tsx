@@ -120,6 +120,18 @@ export default async function AdDetailPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Banner */}
+        <div className="flex justify-center">
+          <iframe
+            width="300"
+            height="250"
+            src="https://bngprm.com/promo.php?c=750034&type=banner&size=300x250&lang=hr&name=banner_mona_jpeg"
+            scrolling="no"
+            frameBorder="0"
+            className="border-0"
+          />
+        </div>
+
         {/* Comments */}
         <Comments adId={ad.id} />
 
