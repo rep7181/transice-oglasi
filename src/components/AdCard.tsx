@@ -71,32 +71,10 @@ export default function AdCard({
           {premium && !featured && (
             <span className="bg-gray-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">VIP</span>
           )}
-          <Link href={`/oglas/${slug}`} className="font-bold text-sm text-primary hover:text-gray-600 transition">
-            {title}
-          </Link>
           {age && <span className="text-xs text-text-muted">({age} god.)</span>}
         </div>
         <span className="text-[11px] text-text-muted">{timeAgo}</span>
       </div>
-
-      {/* Image gallery */}
-      {allImages.length > 0 && (
-        <Link href={`/oglas/${slug}`} className="block">
-          <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-            <img
-              src={allImages[0]}
-              alt={title}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-            {allImages.length > 1 && (
-              <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                +{allImages.length - 1} foto
-              </span>
-            )}
-          </div>
-        </Link>
-      )}
 
       {/* Metadata */}
       <div className="px-4 py-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-text-muted border-b border-gray-100">

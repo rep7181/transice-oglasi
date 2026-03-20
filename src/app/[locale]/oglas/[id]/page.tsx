@@ -75,12 +75,11 @@ export default async function AdDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left - Images & Description */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Image gallery */}
-            <ImageGallery images={ad.images} title={ad.title} />
+            {/* Image gallery - only show if images exist */}
+            {ad.images.length > 0 && <ImageGallery images={ad.images} title={ad.title} />}
 
             {/* Title & Meta */}
             <div className="bg-white rounded-lg border border-border p-5">
-              <h1 className="text-xl font-bold text-primary mb-2">{ad.title}</h1>
               <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted mb-4">
                 <span className="bg-accent/10 text-accent px-2 py-0.5 rounded-full font-medium">
                   {ad.category.name}
@@ -130,10 +129,12 @@ export default async function AdDetailPage({ params }: Props) {
 
               {ad.phone && (
                 <a
-                  href={`tel:${ad.phone}`}
-                  className="flex items-center gap-2 w-full bg-gray-100 hover:bg-gray-200 text-text rounded-lg px-4 py-2.5 transition text-sm font-medium"
+                  href={`https://wa.me/${ad.phone.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 w-full bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2.5 transition text-sm font-medium"
                 >
-                  📞 {ad.phone}
+                  💬 WhatsApp: {ad.phone}
                 </a>
               )}
 
@@ -167,26 +168,6 @@ export default async function AdDetailPage({ params }: Props) {
                   ✈️ Telegram
                 </a>
               )}
-            </div>
-
-            {/* Advertiser */}
-            <div className="bg-white rounded-lg border border-border p-5">
-              <h3 className="font-bold text-sm text-primary mb-3">Oglašivač</h3>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-                  {ad.user.name[0]}
-                </div>
-                <div>
-                  <p className="font-medium text-sm">{ad.user.name}</p>
-                  <p className="text-[11px] text-text-muted">
-                    Član od{" "}
-                    {new Date(ad.user.createdAt).toLocaleDateString("hr-HR", {
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-              </div>
             </div>
 
             <button className="w-full text-center text-xs text-text-muted hover:text-accent transition py-2">

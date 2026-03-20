@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { routing } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -36,6 +37,20 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-EJGVS5EVB5"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EJGVS5EVB5');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
           <Navbar user={user} />
