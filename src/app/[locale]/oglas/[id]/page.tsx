@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import VoteButtons from "@/components/VoteButtons";
-import AffiliateLink from "@/components/AffiliateLink";
 
 interface Props {
   params: Promise<{ locale: string; id: string }>;
@@ -95,7 +94,6 @@ export default async function AdDetailPage({ params }: Props) {
                 <span className="bg-gray-100 text-text-muted px-2 py-0.5 rounded-full">
                   {ad.views} pregleda
                 </span>
-                <AffiliateLink location={ad.city?.name || ad.region?.name || ad.country.name} variant="chip" />
               </div>
 
               {ad.description && (

@@ -7,7 +7,6 @@ import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import Breadcrumb from "@/components/Breadcrumb";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
-import AffiliateLink from "@/components/AffiliateLink";
 
 export const revalidate = 300;
 
@@ -71,7 +70,6 @@ export default async function CountryPage({ params }: Props) {
             Besplatni trans oglasi i kontakti u {country.name}
           </p>
           <div className="mt-2">
-            <AffiliateLink location={country.name} variant="chip" />
           </div>
         </div>
       </section>

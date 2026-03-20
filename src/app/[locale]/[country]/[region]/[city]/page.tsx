@@ -7,7 +7,6 @@ import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import Breadcrumb from "@/components/Breadcrumb";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
-import AffiliateLink from "@/components/AffiliateLink";
 
 interface Props {
   params: Promise<{ locale: string; country: string; region: string; city: string }>;
@@ -77,7 +76,6 @@ export default async function CityPage({ params }: Props) {
             {country.flag} {country.name} &rsaquo; {region.name} &rsaquo; {city.name}
           </p>
           <div className="mt-2">
-            <AffiliateLink location={city.name} variant="chip" />
           </div>
         </div>
       </section>
