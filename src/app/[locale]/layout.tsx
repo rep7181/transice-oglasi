@@ -57,6 +57,10 @@ export default async function LocaleLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </NextIntlClientProvider>
+        <Script
+          src="https://bngprm.com/promo.php?type=chat_head&c=750034&lang=&ch%5Bmodel_zone%5D=free&ch%5Blanding%5D=chat&ch%5Bleft%5D=95&ch%5Btop%5D=95&ch%5Banimation%5D=1&ch%5Btop_models%5D=1&ch%5Bfrequency%5D=43200000&ch%5Bc%5D%5B%5D=transsexual"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

@@ -8,42 +8,54 @@ import * as https from "https";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
-const SOURCE = "https://sexoglasi.ba/trans";
-const IMPORTED_FILE = path.join(__dirname, ".imported-sexoglasi-ba.json");
+const SOURCE = "https://sexsmsoglasi.com/trans";
+const IMPORTED_FILE = path.join(__dirname, ".imported-sexsmsoglasi.json");
 
 const CITY_MAP: Record<string, { country: string; region: string; city: string }> = {
-  "sarajevo": { country: "bosna-i-hercegovina", region: "kanton-sarajevo", city: "sarajevo" },
-  "ilidza": { country: "bosna-i-hercegovina", region: "kanton-sarajevo", city: "ilidza" },
-  "ilidža": { country: "bosna-i-hercegovina", region: "kanton-sarajevo", city: "ilidza" },
-  "tuzla": { country: "bosna-i-hercegovina", region: "tuzlanski-kanton", city: "tuzla" },
-  "zenica": { country: "bosna-i-hercegovina", region: "zenicko-dobojski", city: "zenica" },
-  "mostar": { country: "bosna-i-hercegovina", region: "hercegovacko-neretvanski", city: "mostar" },
-  "bihać": { country: "bosna-i-hercegovina", region: "unsko-sanski-kanton", city: "bihac" },
-  "bihac": { country: "bosna-i-hercegovina", region: "unsko-sanski-kanton", city: "bihac" },
-  "travnik": { country: "bosna-i-hercegovina", region: "srednjobosanski-kanton", city: "travnik" },
-  "bugojno": { country: "bosna-i-hercegovina", region: "srednjobosanski-kanton", city: "bugojno" },
-  "banja luka": { country: "bosna-i-hercegovina", region: "rs-banja-luka", city: "banja-luka" },
-  "banjaluka": { country: "bosna-i-hercegovina", region: "rs-banja-luka", city: "banja-luka" },
-  "prijedor": { country: "bosna-i-hercegovina", region: "rs-banja-luka", city: "prijedor" },
-  "doboj": { country: "bosna-i-hercegovina", region: "rs-doboj", city: "doboj" },
-  "bijeljina": { country: "bosna-i-hercegovina", region: "rs-bijeljina", city: "bijeljina" },
-  "zvornik": { country: "bosna-i-hercegovina", region: "rs-bijeljina", city: "zvornik" },
-  "trebinje": { country: "bosna-i-hercegovina", region: "rs-trebinje", city: "trebinje" },
-  "foča": { country: "bosna-i-hercegovina", region: "rs-trebinje", city: "foca" },
-  "foca": { country: "bosna-i-hercegovina", region: "rs-trebinje", city: "foca" },
-  "višegrad": { country: "bosna-i-hercegovina", region: "rs-trebinje", city: "visegrad" },
-  "visegrad": { country: "bosna-i-hercegovina", region: "rs-trebinje", city: "visegrad" },
-  "brčko": { country: "bosna-i-hercegovina", region: "brcko-distrikt", city: "brcko" },
-  "brcko": { country: "bosna-i-hercegovina", region: "brcko-distrikt", city: "brcko" },
-  "orasje": { country: "bosna-i-hercegovina", region: "posavski-kanton", city: "orasje" },
-  "orašje": { country: "bosna-i-hercegovina", region: "posavski-kanton", city: "orasje" },
-  "goražde": { country: "bosna-i-hercegovina", region: "bosansko-podrinjski", city: "gorazde" },
-  "gorazde": { country: "bosna-i-hercegovina", region: "bosansko-podrinjski", city: "gorazde" },
-  "livno": { country: "bosna-i-hercegovina", region: "hercegbosanski-kanton", city: "livno" },
-  "konjic": { country: "bosna-i-hercegovina", region: "hercegovacko-neretvanski", city: "konjic" },
-  "istočno sarajevo": { country: "bosna-i-hercegovina", region: "rs-istocno-sarajevo", city: "istocno-sarajevo" },
-  "istocno sarajevo": { country: "bosna-i-hercegovina", region: "rs-istocno-sarajevo", city: "istocno-sarajevo" },
-  "pale": { country: "bosna-i-hercegovina", region: "rs-istocno-sarajevo", city: "pale" },
+  "beograd": { country: "srbija", region: "beograd-region", city: "beograd" },
+  "novi beograd": { country: "srbija", region: "beograd-region", city: "novi-beograd" },
+  "zemun": { country: "srbija", region: "beograd-region", city: "zemun" },
+  "novi sad": { country: "srbija", region: "vojvodina", city: "novi-sad" },
+  "subotica": { country: "srbija", region: "vojvodina", city: "subotica" },
+  "zrenjanin": { country: "srbija", region: "vojvodina", city: "zrenjanin" },
+  "pančevo": { country: "srbija", region: "vojvodina", city: "pancevo" },
+  "pancevo": { country: "srbija", region: "vojvodina", city: "pancevo" },
+  "sombor": { country: "srbija", region: "vojvodina", city: "sombor" },
+  "kikinda": { country: "srbija", region: "vojvodina", city: "kikinda" },
+  "sremska mitrovica": { country: "srbija", region: "vojvodina", city: "sremska-mitrovica" },
+  "vršac": { country: "srbija", region: "vojvodina", city: "vrsac" },
+  "vrsac": { country: "srbija", region: "vojvodina", city: "vrsac" },
+  "inđija": { country: "srbija", region: "vojvodina", city: "indjija" },
+  "indjija": { country: "srbija", region: "vojvodina", city: "indjija" },
+  "ruma": { country: "srbija", region: "vojvodina", city: "ruma" },
+  "stara pazova": { country: "srbija", region: "vojvodina", city: "stara-pazova" },
+  "kragujevac": { country: "srbija", region: "sumadijski-okrug", city: "kragujevac" },
+  "niš": { country: "srbija", region: "nisavski-okrug", city: "nis" },
+  "nis": { country: "srbija", region: "nisavski-okrug", city: "nis" },
+  "čačak": { country: "srbija", region: "moravicki-okrug", city: "cacak" },
+  "cacak": { country: "srbija", region: "moravicki-okrug", city: "cacak" },
+  "užice": { country: "srbija", region: "zlatiborski-okrug", city: "uzice" },
+  "uzice": { country: "srbija", region: "zlatiborski-okrug", city: "uzice" },
+  "kraljevo": { country: "srbija", region: "raski-okrug", city: "kraljevo" },
+  "novi pazar": { country: "srbija", region: "raski-okrug", city: "novi-pazar" },
+  "smederevo": { country: "srbija", region: "podunavski-okrug", city: "smederevo" },
+  "jagodina": { country: "srbija", region: "pomoravski-okrug", city: "jagodina" },
+  "paraćin": { country: "srbija", region: "pomoravski-okrug", city: "paracin" },
+  "paracin": { country: "srbija", region: "pomoravski-okrug", city: "paracin" },
+  "valjevo": { country: "srbija", region: "kolubarski-okrug", city: "valjevo" },
+  "šabac": { country: "srbija", region: "macvanski-okrug", city: "sabac" },
+  "sabac": { country: "srbija", region: "macvanski-okrug", city: "sabac" },
+  "loznica": { country: "srbija", region: "macvanski-okrug", city: "loznica" },
+  "pirot": { country: "srbija", region: "pirotski-okrug", city: "pirot" },
+  "leskovac": { country: "srbija", region: "jablanicki-okrug", city: "leskovac" },
+  "vranje": { country: "srbija", region: "pcinjski-okrug", city: "vranje" },
+  "bor": { country: "srbija", region: "borski-okrug", city: "bor" },
+  "zaječar": { country: "srbija", region: "borski-okrug", city: "zajecar" },
+  "zajecar": { country: "srbija", region: "borski-okrug", city: "zajecar" },
+  "požarevac": { country: "srbija", region: "podunavski-okrug", city: "smederevo" },
+  "pozarevac": { country: "srbija", region: "podunavski-okrug", city: "smederevo" },
+  "kruševac": { country: "srbija", region: "raski-okrug", city: "kraljevo" },
+  "krusevac": { country: "srbija", region: "raski-okrug", city: "kraljevo" },
 };
 
 function slugify(text: string): string {
@@ -86,7 +98,7 @@ function detectCity(text: string): string {
   for (const city of cities) {
     if (lower.includes(city)) return city;
   }
-  return "sarajevo";
+  return "beograd";
 }
 
 function extractAge(text: string): number | undefined {
@@ -95,7 +107,7 @@ function extractAge(text: string): number | undefined {
 }
 
 function extractPhone(text: string): string | undefined {
-  const m = text.match(/(\+?387\d{8,9})/);
+  const m = text.match(/(\+?381\d{8,9})/) || text.match(/(0\d{9,10})/);
   return m ? m[1] : undefined;
 }
 
@@ -111,30 +123,23 @@ interface ParsedAd {
 
 function parseListingPage(html: string): ParsedAd[] {
   const ads: ParsedAd[] = [];
-  // Split by item_box divs
-  const blocks = html.split(/class="item_box"/i);
+  const blocks = html.split(/class="apAdBox col100"/i);
 
   for (let i = 1; i < blocks.length; i++) {
     const block = blocks[i];
 
-    // Extract ad ID
-    const idMatch = block.match(/item_header_id[^>]*>(\d+)/i)
-      || block.match(/singleUnit\((\d+)\)/i)
-      || block.match(/Oglas broj:\s*(\d+)/i);
+    const idMatch = block.match(/singleAd\((\d+)\)/i)
+      || block.match(/apAdBoxHeaderIdLink[^>]*>(\d+)/i);
     if (!idMatch) continue;
     const id = idMatch[1];
 
-    // Extract date
-    const dateMatch = block.match(/(\d{2}\.\d{2}\.\d{4})/);
+    const dateMatch = block.match(/apAdBoxHeaderDate[^>]*>\s*(\d{2}\/\d{2}\/\d{4})/i);
     const date = dateMatch ? dateMatch[1] : "";
 
-    // Extract phone (masked on listing, but sometimes full in text)
-    const phoneMatch = block.match(/item_header_phone[^>]*>([^<]+)/i);
+    const phoneMatch = block.match(/apAdBoxHeaderPhone[^>]*>\s*([^<]+)/i);
     const maskedPhone = phoneMatch ? phoneMatch[1].trim() : "";
 
-    // Extract content text
-    const contentMatch = block.match(/item_content[^>]*>([\s\S]*?)(?:<\/div>|$)/i)
-      || block.match(/item_content_left[^>]*>([\s\S]*?)(?:<\/div>|$)/i);
+    const contentMatch = block.match(/apAdBoxContentSingleLeft[^>]*>([\s\S]*?)<\/div>/i);
     let content = "";
     if (contentMatch) {
       content = contentMatch[1].replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
@@ -143,7 +148,6 @@ function parseListingPage(html: string): ParsedAd[] {
     if (!content) continue;
 
     const title = content;
-
     const city = detectCity(content);
     const age = extractAge(content);
     const phone = extractPhone(maskedPhone) || extractPhone(content);
@@ -155,15 +159,14 @@ function parseListingPage(html: string): ParsedAd[] {
 }
 
 async function main() {
-  const limit = parseInt(process.argv[2] || "0") || 0; // 0 = all
+  const limit = parseInt(process.argv[2] || "0") || 0;
   const now = new Date().toISOString().slice(0, 19);
-  console.log(`[${now}] Scraping sexoglasi.ba/trans...`);
+  console.log(`[${now}] Scraping sexsmsoglasi.com/trans...`);
 
   const imported = loadImported();
   console.log(`Already imported: ${imported.size} IDs`);
 
-  // Fetch all pages
-  const maxPages = parseInt(process.argv[3] || "10") || 10;
+  const maxPages = parseInt(process.argv[3] || "5") || 5;
   const allAds: ParsedAd[] = [];
   let page = 1;
   while (page <= maxPages) {
@@ -182,7 +185,6 @@ async function main() {
     }
   }
 
-  // Filter already imported
   const newAds = allAds.filter(a => !imported.has(a.id));
   console.log(`Found ${allAds.length} total, ${newAds.length} new`);
 
@@ -192,7 +194,6 @@ async function main() {
     return;
   }
 
-  // Apply limit
   const toImport = limit > 0 ? newAds.slice(0, limit) : newAds;
 
   const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
@@ -223,7 +224,7 @@ async function main() {
         continue;
       }
 
-      const loc = findLocation(ad.city) || findLocation("sarajevo")!;
+      const loc = findLocation(ad.city) || findLocation("beograd")!;
       const slug = slugify(ad.title) + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
 
       await prisma.ad.create({
