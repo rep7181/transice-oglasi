@@ -100,6 +100,7 @@ model Ad {
   category    Category  @relation(fields: [categoryId], references: [id])
 
   images      Image[]
+  comments    Comment[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -132,6 +133,18 @@ model Category {
   ads       Ad[]
 
   @@map("categories")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  name      String   @default("Anonimno")
+  text      String
+  adId      String
+  ad        Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([adId, createdAt])
+  @@map("comments")
 }
 
 enum Role {
