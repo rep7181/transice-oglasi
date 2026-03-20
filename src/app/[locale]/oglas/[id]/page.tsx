@@ -100,6 +100,20 @@ export default async function AdDetailPage({ params }: Props) {
             </div>
           )}
 
+          {/* WhatsApp */}
+          {ad.phone && (
+            <div className="border-t border-gray-100 pt-4 mt-4">
+              <a
+                href={`https://wa.me/${ad.phone.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white rounded-lg px-5 py-2.5 transition text-sm font-medium"
+              >
+                💬 WhatsApp: {ad.phone}
+              </a>
+            </div>
+          )}
+
           {/* Like / Dislike */}
           <div className="border-t border-gray-100 pt-4 mt-4">
             <VoteButtons adId={ad.id} initialLikes={ad.likes} initialDislikes={ad.dislikes} />

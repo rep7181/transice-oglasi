@@ -126,13 +126,15 @@ export default function AdCard({
       {/* Contact & Actions */}
       <div className="px-4 py-2.5 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {hasContact && (
-            <button
-              onClick={() => setShowContact(!showContact)}
-              className="text-xs bg-gray-700 hover:bg-black text-white px-3 py-1.5 rounded font-medium transition"
+          {phone && (
+            <a
+              href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noopener"
+              className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded font-medium transition"
             >
-              {showContact ? "Sakrij kontakt" : "Prikaži kontakt"}
-            </button>
+              💬 WhatsApp
+            </a>
           )}
           <Link
             href={`/oglas/${slug}`}
@@ -144,8 +146,8 @@ export default function AdCard({
         <span className="text-[11px] text-text-muted">{views} pregleda</span>
       </div>
 
-      {/* Contact info (revealed) */}
-      {showContact && hasContact && (
+      {/* Legacy contact info - hidden */}
+      {false && hasContact && (
         <div className="px-4 py-3 border-t border-gray-200 space-y-2 bg-gray-50">
           {phone && (
             <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
