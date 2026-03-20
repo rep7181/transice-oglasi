@@ -148,8 +148,8 @@ export default function AdCard({
       {showContact && hasContact && (
         <div className="px-4 py-3 border-t border-gray-200 space-y-2 bg-gray-50">
           {phone && (
-            <a href={`tel:${phone}`} className="flex items-center gap-2 text-sm text-text hover:underline">
-              <span>📞</span> {phone}
+            <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
+              <span>💬</span> WhatsApp: {phone}
             </a>
           )}
           {whatsapp && (
