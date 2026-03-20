@@ -146,31 +146,6 @@ export default function AdCard({
         <span className="text-[11px] text-text-muted">{views} pregleda</span>
       </div>
 
-      {/* Legacy contact info - hidden */}
-      {false && hasContact && (
-        <div className="px-4 py-3 border-t border-gray-200 space-y-2 bg-gray-50">
-          {phone && (
-            <a href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
-              <span>💬</span> WhatsApp: {phone}
-            </a>
-          )}
-          {whatsapp && (
-            <a href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
-              <span>💬</span> WhatsApp: {whatsapp}
-            </a>
-          )}
-          {viber && (
-            <a href={`viber://chat?number=${viber.replace(/[^0-9]/g, "")}`} className="flex items-center gap-2 text-sm text-text hover:underline">
-              <span>📱</span> Viber: {viber}
-            </a>
-          )}
-          {telegram && (
-            <a href={`https://t.me/${telegram.replace("@", "")}`} target="_blank" rel="noopener" className="flex items-center gap-2 text-sm text-text hover:underline">
-              <span>✈️</span> Telegram: {telegram}
-            </a>
-          )}
-        </div>
-      )}
     </div>
   );
 }
