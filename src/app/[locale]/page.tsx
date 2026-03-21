@@ -99,7 +99,7 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
             Transice Oglasi
           </h1>
           <p className="text-text-muted text-sm">
-            Besplatni trans sex oglasi i upoznavanje — Hrvatska, Srbija, BiH, Crna Gora, Slovenija, Makedonija
+            Besplatni trans sex oglasi i upoznavanje — Hrvatska, Srbija, BiH, Crna Gora, Slovenija
           </p>
         </div>
       </section>
@@ -128,7 +128,7 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
       <section className="bg-white border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex flex-wrap gap-2 justify-center">
-            {COUNTRIES.map((c) => (
+            {COUNTRIES.filter((c) => c.slug !== "sjeverna-makedonija").map((c) => (
               <Link
                 key={c.slug}
                 href={`/${c.slug}` as never}

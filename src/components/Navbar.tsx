@@ -21,7 +21,6 @@ export default function Navbar({ user }: NavbarProps) {
     { href: "/bosna-i-hercegovina" as const, label: "BiH" },
     { href: "/crna-gora" as const, label: "Crna Gora" },
     { href: "/slovenija" as const, label: "Slovenija" },
-    { href: "/sjeverna-makedonija" as const, label: "Makedonija" },
   ];
 
   return (

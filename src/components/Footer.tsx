@@ -19,7 +19,6 @@ export default function Footer() {
     { name: "Sarajevo", path: "/bosna-i-hercegovina/kanton-sarajevo/sarajevo" },
     { name: "Ljubljana", path: "/slovenija/osrednjeslovenska/ljubljana" },
     { name: "Podgorica", path: "/crna-gora/podgorica/podgorica" },
-    { name: "Skopje", path: "/sjeverna-makedonija/skopski/skopje" },
   ];
 
   return (
