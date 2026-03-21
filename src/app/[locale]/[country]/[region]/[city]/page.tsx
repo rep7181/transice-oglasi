@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!country || !region || !city) return {};
 
   return {
-    title: `Trans oglasi ${city.name} - Transice-Oglasi.com`,
-    description: `Trans oglasi u ${city.name}, ${country.name}. Escort, masaža, upoznavanje. Besplatno postavi oglas.`,
+    title: `Trans oglasi ${city.name} - Pregledaj sve trans oglase za sex i upoznavanje`,
+    description: `Trans oglasi u ${city.name}, ${region.name}, ${country.name}. Trans escort, masaža, upoznavanje, webcam. Besplatno postavi oglas!`,
   };
 }
 
@@ -105,7 +105,9 @@ export default async function CityPage({ params }: Props) {
                 age={ad.age}
                 price={ad.price}
                 city={ad.city?.name}
+                citySlug={ad.city?.slug}
                 region={ad.region?.name}
+                regionSlug={ad.region?.slug}
                 country={ad.country.name}
                 countrySlug={ad.country.slug}
                 category={ad.category.name}

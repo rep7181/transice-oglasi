@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!country || !region) return {};
 
   return {
-    title: `Trans oglasi ${region.name}, ${country.name} - Transice-Oglasi.com`,
-    description: `Trans oglasi u regiji ${region.name}, ${country.name}. Gradovi: ${region.cities.map((c) => c.name).join(", ")}.`,
+    title: `Trans oglasi ${region.name} - ${country.name}`,
+    description: `Trans oglasi u regiji ${region.name}, ${country.name}. Gradovi: ${region.cities.map((c) => c.name).join(", ")}. Escort, masaža, upoznavanje.`,
   };
 }
 
@@ -117,7 +117,9 @@ export default async function RegionPage({ params }: Props) {
                 age={ad.age}
                 price={ad.price}
                 city={ad.city?.name}
+                citySlug={ad.city?.slug}
                 region={ad.region?.name}
+                regionSlug={ad.region?.slug}
                 country={ad.country.name}
                 countrySlug={ad.country.slug}
                 category={ad.category.name}

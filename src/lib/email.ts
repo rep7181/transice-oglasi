@@ -1,8 +1,14 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const NOTIFY_EMAIL = "annon-marketing@proton.me";
 
-const NOTIFY_EMAIL = "diosmarketing5@gmail.com";
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function notifyNewAd(ad: {
   title: string;
@@ -12,8 +18,8 @@ export async function notifyNewAd(ad: {
   userEmail: string;
 }) {
   try {
-    await resend.emails.send({
-      from: "TransOglasi <onboarding@resend.dev>",
+    await transporter.sendMail({
+      from: `TransOglasi <${process.env.GMAIL_USER}>`,
       to: NOTIFY_EMAIL,
       subject: `Novi oglas: ${ad.title}`,
       html: `
@@ -26,5 +32,22 @@ export async function notifyNewAd(ad: {
     });
   } catch (error) {
     console.error("Email notification failed:", error);
+  }
+}
+
+export async function sendContactEmail(data: {
+  name: string;
+  email: string;
+  message: string;
+}) {
+  try {
+    await transporter.sendMail({
+      from: `TransOglasi <${process.env.GMAIL_USER}>`,
+      to: NOTIFY_EMAIL,
+      subject: `Kontakt forma - ${data.name || "Anonimno"}`,
+      text: `Ime: ${data.name || "N/A"}\nEmail: ${data.email || "N/A"}\n\nPoruka:\n${data.message}`,
+    });
+  } catch (error) {
+    console.error("Contact email failed:", error);
   }
 }

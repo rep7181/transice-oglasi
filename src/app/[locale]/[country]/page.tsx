@@ -7,6 +7,7 @@ import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import Breadcrumb from "@/components/Breadcrumb";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
+import VipAds from "@/components/VipAds";
 
 export const revalidate = 300;
 
@@ -20,8 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!country) return {};
 
   return {
-    title: `Trans oglasi ${country.name} - Transice-Oglasi.com`,
-    description: `Trans oglasi u ${country.name}. Escort, masaža, upoznavanje. Besplatno postavljanje oglasa.`,
+    title: `Trans oglasi ${country.name} - Escort, trans sex, upoznavanje`,
+    description: `Besplatni trans oglasi u ${country.name}. Trans escort, masaža, upoznavanje, webcam i telefon kontakti. Objavi oglas besplatno!`,
   };
 }
 
@@ -121,6 +122,8 @@ export default async function CountryPage({ params }: Props) {
           Oglasi u {country.name} ({ads.length})
         </h2>
 
+        <VipAds />
+
         {ads.length > 0 ? (
           <div className="columns-1 md:columns-2 gap-4">
             {ads.map((ad: any) => (
@@ -133,7 +136,9 @@ export default async function CountryPage({ params }: Props) {
                 age={ad.age}
                 price={ad.price}
                 city={ad.city?.name}
+                citySlug={ad.city?.slug}
                 region={ad.region?.name}
+                regionSlug={ad.region?.slug}
                 country={ad.country.name}
                 countrySlug={ad.country.slug}
                 category={ad.category.name}

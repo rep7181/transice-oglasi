@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     default: "Transice-Oglasi.com - Besplatni trans oglasi za Balkan",
-    template: "%s | Transice-Oglasi.com",
+    template: "%s",
   },
   description:
     "Besplatni trans oglasi i osobni kontakti. Hrvatska, Srbija, BiH, Crna Gora, Slovenija, Makedonija. Escort, masaža, upoznavanje. 100% besplatno.",

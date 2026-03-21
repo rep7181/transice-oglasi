@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { COUNTRIES, CATEGORIES } from "@/lib/countries";
+import ContactForm from "./ContactForm";
 
 export default function Footer() {
   const t = useTranslations("common");
@@ -64,8 +65,6 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Info</h4>
             <ul className="space-y-1.5">
               <li><Link href="/oglas/novi" className="text-xs hover:text-white transition">Objavi oglas</Link></li>
-              <li><Link href="/login" className="text-xs hover:text-white transition">{t("login")}</Link></li>
-              <li><Link href="/registracija" className="text-xs hover:text-white transition">{t("register")}</Link></li>
             </ul>
             <h4 className="text-white font-bold mb-2 mt-4 text-xs uppercase tracking-wider">Kategorije</h4>
             <ul className="space-y-1.5">
@@ -80,11 +79,21 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Contact Form */}
+        <div className="border-t border-primary-light mt-6 pt-6 pb-2">
+          <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Kontakt</h4>
+          <ContactForm />
+        </div>
+
         {/* Bottom */}
-        <div className="border-t border-primary-light mt-6 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
+        <div className="border-t border-primary-light mt-4 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
           <p className="text-xs text-gray-400">
             &copy; {new Date().getFullYear()} Transice-Oglasi.com. Sva prava pridržana.
           </p>
+          <div className="flex items-center gap-3">
+            <Link href="/uvjeti-koristenja" className="text-[10px] text-gray-500 hover:text-white transition">Uvjeti korištenja</Link>
+            <Link href="/politika-privatnosti" className="text-[10px] text-gray-500 hover:text-white transition">Politika privatnosti</Link>
+          </div>
           <p className="text-[10px] text-gray-500">
             Sav sadržaj na ovoj stranici namijenjen je isključivo osobama starijim od 18 godina.
           </p>

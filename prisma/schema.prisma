@@ -77,7 +77,7 @@ model Ad {
   whatsapp    String?
   viber       String?
   telegram    String?
-  status      AdStatus  @default(PENDING)
+  status      AdStatus  @default(ACTIVE)
   featured    Boolean   @default(false)
   premium     Boolean   @default(false)
   views       Int       @default(0)

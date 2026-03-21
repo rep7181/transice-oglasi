@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { COUNTRIES, CATEGORIES } from "@/lib/countries";
 import AdCard from "@/components/AdCard";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
+import VipAds from "@/components/VipAds";
 
 export const revalidate = 300; // revalidate every 5 minutes
 
@@ -95,10 +96,10 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
       <section className="bg-white border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-6 text-center">
           <h1 className="text-2xl md:text-3xl font-black text-primary mb-2">
-            Transice-Oglasi.com
+            Transice Oglasi
           </h1>
           <p className="text-text-muted text-sm">
-            Besplatni trans oglasi i osobni kontakti — Hrvatska, Srbija, BiH, Crna Gora, Slovenija, Makedonija
+            Besplatni trans sex oglasi i upoznavanje — Hrvatska, Srbija, BiH, Crna Gora, Slovenija, Makedonija
           </p>
         </div>
       </section>
@@ -180,11 +181,14 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
 
       {/* Ads Masonry Grid */}
       <section className="max-w-6xl mx-auto px-4 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-primary">
-            Trans oglasi ({ads.length > 0 ? ads.length : "0"})
-          </h2>
-        </div>
+        <h2 className="text-xl font-bold text-primary mb-1">
+          Trans oglasi iz cijelog Balkana ({ads.length})
+        </h2>
+        <p className="text-sm text-text-muted mb-4">
+          Sortiraj oglase po državi ili gradu
+        </p>
+
+        <VipAds />
 
         {ads.length > 0 ? (
           <div className="columns-1 md:columns-2 gap-4">
@@ -198,7 +202,9 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
                 age={ad.age}
                 price={ad.price}
                 city={ad.city?.name}
+                citySlug={ad.city?.slug}
                 region={ad.region?.name}
+                regionSlug={ad.region?.slug}
                 country={ad.country.name}
                 countrySlug={ad.country.slug}
                 category={ad.category.name}

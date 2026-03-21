@@ -43,15 +43,11 @@ export default function LanguageSwitcher() {
 
       {open && (
         <div className="absolute right-0 top-full mt-1 bg-dark-light border border-gray-700 rounded-lg shadow-xl py-1 min-w-[160px] z-50">
-          {locales.map((l) => (
+          {locales.filter((l) => l !== locale).map((l) => (
             <button
               key={l}
               onClick={() => switchLocale(l)}
-              className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition ${
-                l === locale
-                  ? "text-primary bg-primary/10"
-                  : "text-gray-300 hover:text-white hover:bg-white/5"
-              }`}
+              className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-gray-300 hover:text-white hover:bg-white/5 transition"
             >
               <span>{localeFlags[l]}</span>
               <span>{localeNames[l]}</span>

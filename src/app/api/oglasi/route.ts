@@ -53,9 +53,14 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getCurrentUser();
+  let user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ error: "Niste prijavljeni" }, { status: 401 });
+    // Allow anonymous posting - use admin as fallback owner
+    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
+    if (!admin) {
+      return NextResponse.json({ error: "Greška servera" }, { status: 500 });
+    }
+    user = admin;
   }
 
   try {
@@ -69,19 +74,34 @@ export async function POST(req: NextRequest) {
       whatsapp,
       viber,
       telegram,
-      countryId,
-      regionId,
-      cityId,
-      categoryId,
+      countrySlug,
+      regionSlug,
+      citySlug,
+      categorySlug,
       imageUrls,
     } = body;
 
-    if (!title || !description || !countryId || !categoryId) {
+    if (!title || !description || !countrySlug || !categorySlug) {
       return NextResponse.json(
         { error: "Naslov, opis, država i kategorija su obavezni" },
         { status: 400 }
       );
     }
+
+    // Resolve slugs to IDs
+    const country = await prisma.country.findUnique({ where: { slug: countrySlug } });
+    if (!country) return NextResponse.json({ error: "Nepoznata država" }, { status: 400 });
+    const countryId = country.id;
+
+    const region = regionSlug ? await prisma.region.findFirst({ where: { slug: regionSlug, countryId } }) : null;
+    const regionId = region?.id || null;
+
+    const city = citySlug ? await prisma.city.findFirst({ where: { slug: citySlug, regionId: regionId! } }) : null;
+    const cityId = city?.id || null;
+
+    const category = await prisma.category.findUnique({ where: { slug: categorySlug } });
+    if (!category) return NextResponse.json({ error: "Nepoznata kategorija" }, { status: 400 });
+    const categoryId = category.id;
 
     const baseSlug = slugify(title);
     const uniqueSuffix = Date.now().toString(36);

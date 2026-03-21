@@ -36,15 +36,6 @@ export default function Navbar({ user }: NavbarProps) {
           </Link>
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            {user ? (
-              <Link href="/profil" className="text-sm text-primary hover:text-accent transition">
-                {user.name}
-              </Link>
-            ) : (
-              <Link href="/login" className="text-sm text-primary hover:text-accent transition">
-                {t("login")}
-              </Link>
-            )}
             {user?.role === "ADMIN" && (
               <Link href="/admin" className="text-sm text-accent font-bold">
                 Admin
@@ -103,19 +94,10 @@ export default function Navbar({ user }: NavbarProps) {
               </Link>
             ))}
             <hr className="border-primary-light" />
-            {user ? (
+            {user?.role === "ADMIN" && (
               <Link href="/profil" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
-                {t("profile")}
+                Admin
               </Link>
-            ) : (
-              <>
-                <Link href="/login" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
-                  {t("login")}
-                </Link>
-                <Link href="/registracija" className="block py-2 px-3 text-gray-200 hover:text-white" onClick={() => setMenuOpen(false)}>
-                  {t("register")}
-                </Link>
-              </>
             )}
           </div>
         )}
