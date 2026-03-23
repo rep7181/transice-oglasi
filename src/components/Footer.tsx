@@ -3,7 +3,6 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { COUNTRIES, CATEGORIES } from "@/lib/countries";
-import ContactForm from "./ContactForm";
 
 export default function Footer() {
   const t = useTranslations("common");
@@ -68,6 +67,7 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Info</h4>
             <ul className="space-y-1.5">
               <li><Link href="/oglas/novi" className="text-xs hover:text-white transition">Objavi oglas</Link></li>
+              <li><Link href="/kontakt" className="text-xs hover:text-white transition">Kontakt</Link></li>
             </ul>
             <h4 className="text-white font-bold mb-2 mt-4 text-xs uppercase tracking-wider">Kategorije</h4>
             <ul className="space-y-1.5">
@@ -80,12 +80,6 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* Contact Form */}
-        <div className="border-t border-primary-light mt-6 pt-6 pb-2">
-          <h4 className="text-white font-bold mb-3 text-xs uppercase tracking-wider">Kontakt</h4>
-          <ContactForm />
         </div>
 
         {/* Bottom */}
