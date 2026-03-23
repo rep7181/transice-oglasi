@@ -22,6 +22,10 @@ export default function Footer() {
   ];
 
   return (
+    <>
+    <div className="flex justify-center my-5">
+      <a href="https://www.eurogirlsescort.com" target="_blank" rel="noopener noreferrer"><img src="https://www.eurogirlsescort.com/dist/images/banners/234X60.jpg" alt="EuroGirlsEscort.com" /></a>
+    </div>
     <footer className="bg-primary text-gray-300 mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Top section */}
@@ -99,5 +103,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
