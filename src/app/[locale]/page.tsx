@@ -7,25 +7,43 @@ import AdCard from "@/components/AdCard";
 import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import VipAds from "@/components/VipAds";
 
-export const revalidate = 300; // revalidate every 5 minutes
+export const revalidate = 1800; // revalidate every 30 minutes
 
 async function getAds() {
   try {
-    const ads = await prisma.ad.findMany({
-      where: { status: "ACTIVE" },
-      include: {
-        images: { orderBy: { order: "asc" } },
-        country: true,
-        region: true,
-        city: true,
-        category: true,
-        user: { select: { name: true } },
-      },
-      orderBy: [{ featured: "desc" }, { premium: "desc" }, { createdAt: "desc" }],
-      take: 50,
-    });
-    return ads;
-  } catch {
+    // Fetch 10 latest ads per country for a balanced mix
+    const countries = await prisma.country.findMany({ select: { id: true } });
+    const adsByCountry = await Promise.all(
+      countries.map((c) =>
+        prisma.ad.findMany({
+          where: { status: "ACTIVE", countryId: c.id },
+          include: {
+            images: { orderBy: { order: "asc" } },
+            country: true,
+            region: true,
+            city: true,
+            category: true,
+            user: { select: { name: true } },
+          },
+          orderBy: [{ featured: "desc" }, { premium: "desc" }, { createdAt: "desc" }],
+          take: 10,
+        })
+      )
+    );
+    // Interleave: round-robin from each country, then shuffle within groups
+    const queues = adsByCountry.filter((a) => a.length > 0);
+    const mixed: typeof queues[0] = [];
+    let round = 0;
+    while (mixed.length < 50 && queues.some((q) => q[round])) {
+      for (const q of queues) {
+        if (q[round] && mixed.length < 50) mixed.push(q[round]);
+      }
+      round++;
+    }
+    console.log("[getAds] Found", mixed.length, "ads from", queues.length, "countries");
+    return mixed;
+  } catch (e) {
+    console.error("[getAds] ERROR:", e);
     return [];
   }
 }
@@ -43,7 +61,8 @@ async function getStats() {
       prisma.user.count(),
     ]);
     return { total, today, users };
-  } catch {
+  } catch (e) {
+    console.error("[getStats] ERROR:", e);
     return { total: 0, today: 0, users: 0 };
   }
 }

@@ -9,7 +9,7 @@ import SearchFiltersWrapper from "@/components/SearchFiltersWrapper";
 import AdCard from "@/components/AdCard";
 import VipAds from "@/components/VipAds";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 interface Props {
   params: Promise<{ locale: string; country: string }>;
