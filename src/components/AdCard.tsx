@@ -31,6 +31,7 @@ interface AdCardProps {
 }
 
 export default function AdCard({
+  id,
   slug,
   title,
   description,
