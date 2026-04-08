@@ -159,7 +159,7 @@ export default function AdCard({
             Detalji
           </Link>
         </div>
-        <span className="text-[11px] text-text-muted">{views} pregleda</span>
+        <span className="text-[11px] text-text-muted">#{id.slice(-6).toUpperCase()} · {views} pregleda</span>
       </div>
 
     </div>

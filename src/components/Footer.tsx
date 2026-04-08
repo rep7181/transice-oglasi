@@ -22,12 +22,6 @@ export default function Footer() {
 
   return (
     <>
-    <div className="flex justify-center my-5">
-      <a href="https://www.eurogirlsescort.com" target="_blank" rel="noopener noreferrer"><img src="https://www.eurogirlsescort.com/dist/images/banners/234X60.jpg" alt="EuroGirlsEscort.com" /></a>
-    </div>
-    <div className="flex justify-center mb-5">
-      <a href="https://www.worldescortindex.com/" target="_blank" rel="noopener noreferrer"><img src="https://www.worldescortindex.com/images/our-banners/120x60.jpg" alt="worldescortindex.com" /></a>
-    </div>
     <footer className="bg-primary text-gray-300 mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Top section */}

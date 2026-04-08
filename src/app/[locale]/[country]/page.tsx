@@ -125,7 +125,7 @@ export default async function CountryPage({ params }: Props) {
         <VipAds />
 
         {ads.length > 0 ? (
-          <div className="columns-1 md:columns-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {ads.map((ad: any) => (
               <AdCard
                 key={ad.id}

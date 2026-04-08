@@ -209,8 +209,13 @@ function HomeContent({ ads, stats }: { ads: Ad[]; stats: { total: number; today:
 
         <VipAds />
 
+        <div className="flex flex-wrap justify-center gap-4 my-4">
+          <a href="https://www.eurogirlsescort.com" target="_blank" rel="noopener noreferrer"><img src="https://www.eurogirlsescort.com/dist/images/banners/234X60.jpg" alt="EuroGirlsEscort.com" /></a>
+          <a href="https://www.worldescortindex.com/" target="_blank" rel="noopener noreferrer"><img src="https://www.worldescortindex.com/images/our-banners/120x60.jpg" alt="worldescortindex.com" /></a>
+        </div>
+
         {ads.length > 0 ? (
-          <div className="columns-1 md:columns-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {ads.map((ad) => (
               <AdCard
                 key={ad.id}
